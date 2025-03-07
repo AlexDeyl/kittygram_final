@@ -1,0 +1,40 @@
+version: '3'
+
+volumes:
+  pg_data_production:
+  static_volume:
+  media_volume:
+
+services:
+  db:
+    image: postgres:13
+    env_file: .env
+    volumes:
+      - pg_data_production:/var/lib/postgresql/data
+
+  backend:
+    image: alexdeyl/kittygram_backend
+    env_file: .env
+    volumes:
+      - static_volume:/backend_static
+      - media_volume:/app/media
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             gunicorn --bind 0.0.0.0:9000 kittygram_backend.wsgi:application"
+
+  frontend:
+    image: alexdeyl/kittygram_frontend
+    env_file: .env
+    command: cp -r /app/build/. /frontend_static/
+    volumes:
+      - static_volume:/frontend_static
+
+  gateway:
+    image: alexdeyl/kittygram_gateway
+    env_file: .env
+    volumes:
+      - static_volume:/staticfiles/
+      - media_volume:/media/
+    ports:
+      - "9000:80"
