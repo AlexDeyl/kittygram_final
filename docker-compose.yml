@@ -3,50 +3,31 @@ version: '3'
 volumes:
   pg_data:
   static:
-  media:
 
 services:
   db:
-    image: postgres:13
+    image: postgres:13.10
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
 
   backend:
     build: ./backend/
-    container_name: kittygram_backend
-    restart: always
     env_file: .env
-    depends_on:
-      - db
     volumes:
-      - static:/app/static
-      - media:/app/media
-    command: >
-      sh -c "wait-for-it db:5432 -- python manage.py migrate &&
-         python manage.py collectstatic --noinput &&
-         python manage.py test &&
-         gunicorn --bind 0.0.0.0:8000 kittygram_backend.wsgi:application"
+      - static:/backend_static
 
   frontend:
-    build: ./frontend/
-    container_name: kittygram_frontend
-    restart: always
     env_file: .env
-    command: sh -c "cp -r /app/build/. /static/"
+    build: ./frontend/
+    command: cp -r /app/build/. /frontend_static/
     volumes:
-      - static:/static
+      - static:/frontend_static
+
 
   gateway:
-    build: ./nginx/
-    container_name: kittygram_gateway
-    restart: always
-    env_file: .env
-    depends_on:
-      - backend
-      - frontend
+    build: ./gateway/
+    volumes:
+      - static:/staticfiles/
     ports:
       - 9000:80
-    volumes:
-      - static:/app/static
-      - media:/app/media
