@@ -9,7 +9,7 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     services:
-      postgres:
+      db:
         image: postgres:13.10
         env:
           POSTGRES_USER: kittygram_user
