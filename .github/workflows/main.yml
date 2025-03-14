@@ -172,4 +172,4 @@ jobs:
         with:
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
-          text: 'Deployment of Kittygram was successful!'
+          text: 'Ты справился, деплой прошел'
