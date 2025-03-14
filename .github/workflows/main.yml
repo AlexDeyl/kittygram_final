@@ -12,12 +12,9 @@ jobs:
       postgres:
         image: postgres:13.10
         env:
-          DB_USER: kittygram_user
-          DB_PASSWORD: password
-          DB_NAME: kittygram_db
-          DB_HOST: postgres 
-        
-       
+          POSTGRES_USER: kittygram_user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: kittygram_db
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
