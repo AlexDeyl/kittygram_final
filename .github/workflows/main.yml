@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send success notification to Telegram
-        uses: peter-evans/telegram-action@v1
-        with:
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          chat-id: ${{ secrets.TELEGRAM_CHAT_ID }}
-          message: "Ты справился, деплой прошел!"
+        run: |
+          curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "text=Ты справился, деплой прошел!"
