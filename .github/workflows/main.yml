@@ -166,8 +166,8 @@ jobs:
     needs: deploy
     steps:
       - name: Send success notification to Telegram
-        uses: peter-evans/telegram-action@v1
+        uses: peter-evans/telegram-action@v2
         with:
-          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
-          text: 'Ты справился, деплой прошел'
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          chat-id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: "Ты справился, деплой прошел!"
