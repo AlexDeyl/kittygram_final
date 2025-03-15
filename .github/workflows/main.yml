@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send success notification to Telegram
-        uses: peter-evans/telegram-action@v2
+        uses: peter-evans/telegram-action@v1
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           chat-id: ${{ secrets.TELEGRAM_CHAT_ID }}
